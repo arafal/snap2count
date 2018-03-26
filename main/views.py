@@ -4,9 +4,14 @@ from forms import ImageUploadForm
 from models import ImageModel
 
 
-def index(request):
+def home(request):
     return render(request,'main/home.html')
-# Create your views here.
+
+def about(request):
+    return render(request,'main/about.html')
+
+def upload(request):
+    return render(request,'main/upload.html')
 
 def upload_pic(request):
 	if request.method == 'POST':

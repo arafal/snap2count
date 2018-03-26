@@ -1,0 +1,21 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<div id="main">
+       <div class="header">
+            <img class="img-responsive" src="{% static 'images/logo.png' %}" width="20%" >
+        </div>
+
+        <div class="content">
+
+            <h2 class="content-subhead">Take Or Upload A Picture</h2>
+
+            <form action="{% url 'upload_pic' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+                <p>
+                    <input type="file" id="id_image" name="image" accept="image/*" capture="camera"> 
+                </p>
+                <input type="submit" value="Submit" />
+            </form>
+            
+        </div>
+    </div>
+{% endblock %}
