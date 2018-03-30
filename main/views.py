@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from forms import ImageUploadForm
 from models import ImageModel
-
+from hough import importImage
 
 def home(request):
     return render(request,'main/home.html')
@@ -22,6 +22,12 @@ def upload_pic(request):
 		if form.is_valid():
 			m = ImageModel()
 			m.model = form.cleaned_data['image']
+			
+			#Image to be used for hough transformation
+			image = form.cleaned_data['image']
+
+			#TODO: Import python 
+
 			data = form.cleaned_data
 			m.save()
 			return render(request,'main/success.html',{'data':data})
