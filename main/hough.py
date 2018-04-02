@@ -5,10 +5,8 @@ from matplotlib import pyplot as plt
 from skimage import img_as_ubyte
 from PIL import Image
 
-def importImage(image):
-    coin = image
-#coin = cv2.imread('test_inputs/10.jpg') # read the input image
-coin_resize = cv2.resize(coin, (300, 300)) # resize the input image to 300x300 size
+coin = cv2.imread('22.jpg') # read the input image
+coin_resize = cv2.resize(coin, (200, 200)) # resize the input image to 300x300 size
 coin_resize2 = cv2.cvtColor(coin_resize, cv2.COLOR_BGR2RGB)
 
 
