@@ -345,6 +345,9 @@ def upload_pic(request):
                 if labels[0] == "quarter":
                     quarterCount += 1
 
+                # delete image after using it
+                os.remove(file_name)
+
             print(str(pennyCount) + " pennys\n" + str(nickelCount)+ " nickels\n" + str(dimeCount)+ " dimes\n" + str(quarterCount)+ " quarters\n")
             total = pennyCount + (nickelCount * 5) + (dimeCount * 10) + (quarterCount * 25)
 
