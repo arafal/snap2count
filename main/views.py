@@ -234,8 +234,6 @@ def upload_pic(request):
                 h=cv2.circle(coin_laplacian,(i[0],i[1]),i[2],(0,255,0),2) # draw the outer circle
                 cv2.circle(coin_laplacian,(i[0],i[1]),2,(0,0,255),3) # draw the center of the circle
 
-            # TODO: clear TensorFlowInputs
-
 # nickel = 0
 # penny = 0
 # quarter = 0
