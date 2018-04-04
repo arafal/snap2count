@@ -334,13 +334,17 @@ def upload_pic(request):
                 top_k = results.argsort()[-5:][::-1]
                 labels = load_labels(label_file)
 
-                if labels[0] == "penny":
+                maxIndex = np.argmax(results)
+
+                print(labels[maxIndex] + " - " + str(results[maxIndex]))
+
+                if labels[maxIndex] == "penny":
                     pennyCount += 1
-                if labels[0] == "nickel":
+                if labels[maxIndex] == "nickel":
                     nickelCount += 1
-                if labels[0] == "dimes":
+                if labels[maxIndex] == "dimes":
                     dimeCount += 1
-                if labels[0] == "quarter":
+                if labels[maxIndex] == "quarter":
                     quarterCount += 1
 
                 # delete image after using it
