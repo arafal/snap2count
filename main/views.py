@@ -12,6 +12,8 @@ import tensorflow as tf
 
 
 from django.shortcuts import render
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 from django.http import HttpResponse
 from main.forms import ImageUploadForm
 from main.models import ImageModel
@@ -90,6 +92,9 @@ def load_labels(label_file):
 
 def handle_uploaded_file(f):
     with open('tmp.jpg', 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+    with open('static/images/in.png', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
 
@@ -350,6 +355,8 @@ def upload_pic(request):
                 # delete image after using it
                 os.remove(file_name)
 
+
+
             print(str(pennyCount) + " pennys\n" + str(nickelCount)+ " nickels\n" + str(dimeCount)+ " dimes\n" + str(quarterCount)+ " quarters\n")
             total = pennyCount + (nickelCount * 5) + (dimeCount * 10) + (quarterCount * 25)
 
@@ -360,13 +367,19 @@ def upload_pic(request):
             totalChange = total % 100
             print("Total amount: " + str(totalDollars) + "." + str(totalChange))
 
-
+            #def search_isbn(request):
+                #if request.method == 'POST':
+                    #x=500
+            #return render_to_response('main/success.html',RequestContext(request))
 
 
 
 	#TODO: Import python 
 
             data = form.cleaned_data
+            data1=totalDollars
             # m.save()
             return render(request,'main/success.html',{'data':data})
+            return render(request,'main/success.html',{'data1':totalDollars})
+            return render_to_response('main/success.html',{'totalDollars':totalDollars})
             return HttpResponseForbidden('allowed only via POST')
