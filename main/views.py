@@ -94,7 +94,12 @@ def handle_uploaded_file(f):
     with open('tmp.jpg', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
-    path =  os.path.join(MEDIA_ROOT, 'in.png')
+    path = 'media/in.png'
+    try:
+        os.remove(path)
+    except:
+        pass
+
     with open(path, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
@@ -109,6 +114,7 @@ def upload_pic(request):
         form = ImageUploadForm(request.POST , request.FILES)
         if form.is_valid():
             # inputImageURL = handle_uploaded_file(request.FILES['image'])
+            handle_uploaded_file(request.FILES['image'])
             # data = request.FILES['image'] # or self.files['image'] in your form
             # path = default_storage.save('tmp.jpg', ContentFile(data.read()))
             image = cv2.imread('tmp.jpg') # read the input image
@@ -322,6 +328,8 @@ def upload_pic(request):
             graph = load_graph(model_file)
 
             for filename in os.listdir('TensorFlowInputs'):
+                if not filename.endswith('.jpg') or filename.startswith('.'):
+                    continue  # Skip!
                 file_name = os.path.join('TensorFlowInputs', filename)
 
                 t = read_tensor_from_image_file(file_name,
@@ -371,6 +379,8 @@ def upload_pic(request):
                 totalDollars = int(total/100)
     
             totalChange = total % 100
+            if totalChange < 10:
+                totalChange = "0" + str(totalChange)
             print("Total amount: " + str(totalDollars) + "." + str(totalChange))
 
             #def search_isbn(request):
@@ -388,7 +398,7 @@ def upload_pic(request):
             # return render(request,'main/success.html',{'data':data})
             # return render(request,'main/success.html',{'data1':totalDollars})
             # return render_to_response('main/success.html',{'totalDollars':totalDollars})
-            context = RequestContext(request, {
+            context = {
                 # 'inputImageURL' : inputImageURL,
                 'pennyCount' : pennyCount,
                 'nickelCount' : nickelCount,
@@ -396,8 +406,8 @@ def upload_pic(request):
                 'quarterCount' : quarterCount,
                 'totalDollars' : totalDollars,
                 'totalChange' : totalChange
-            })
+            }
             
-            return render_to_response('main/result.html', context)
-
-            return HttpResponseForbidden('allowed only via POST')
+            return render(request, 'main/result.html', context)
+        else: 
+            return HttpResponse('invalid form')
