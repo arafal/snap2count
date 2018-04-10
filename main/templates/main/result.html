@@ -28,17 +28,17 @@
             <h2 class="content-subhead">Results</h2>
     
             <p>
-                Number of quarters: <br>
-                Number of dimes: <br>
-                Number of nickels: <br>
-                Number of pennies: <br> <br>
+                Number of quarters: {{quarterCount}} <br>
+                Number of dimes: {{dimeCount}} <br>
+                Number of nickels: {{nickelCount}} <br>
+                Number of pennies: {{pennyCount}} <br> <br>
 
-                Total Amount: $<br><br>
+                Total Amount: ${{totalDollars}}.{{totalChange}}<br><br>
 
                 Your Input Image and Circled Coins: <br>
-
-                <img class="img-responsive" src="{% static 'images/in.png' %}" width="20%" >
-                <img class="img-responsive" src="{% static 'images/in.png' %}" width="20%" >
+                <!-- <img class="img-responsive" src="{{ MEDIA_URL }}in.png" width="20%" > -->
+                <!-- <img class="img-responsive" src={{inputImageURL}} width="20%" > -->
+                <!-- <img class="img-responsive" src="{% static 'images/in.png' %}" width="20%" > -->
 
              </p>
             

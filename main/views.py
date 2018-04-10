@@ -30,9 +30,9 @@ from PIL import Image
 
 import os
 from django.core.files.storage import default_storage
+from django.core.files.storage import FileSystemStorage
 from django.core.files.base import ContentFile
 from django.conf import settings
-
 
 def home(request):
     return render(request,'main/home.html')
@@ -94,15 +94,21 @@ def handle_uploaded_file(f):
     with open('tmp.jpg', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
-    with open('static/images/in.png', 'wb+') as destination:
+    path =  os.path.join(MEDIA_ROOT, 'in.png')
+    with open(path, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
+    
+    # fs = FileSystemStorage()
+    # filename = fs.save('in.png', f)
+    # return fs.url(filename)
+    
 
 def upload_pic(request):
     if request.method == 'POST':
         form = ImageUploadForm(request.POST , request.FILES)
         if form.is_valid():
-            handle_uploaded_file(request.FILES['image'])
+            # inputImageURL = handle_uploaded_file(request.FILES['image'])
             # data = request.FILES['image'] # or self.files['image'] in your form
             # path = default_storage.save('tmp.jpg', ContentFile(data.read()))
             image = cv2.imread('tmp.jpg') # read the input image
@@ -376,10 +382,22 @@ def upload_pic(request):
 
 	#TODO: Import python 
 
-            data = form.cleaned_data
-            data1=totalDollars
+            # data = form.cleaned_data
+            # data1=totalDollars
             # m.save()
-            return render(request,'main/success.html',{'data':data})
-            return render(request,'main/success.html',{'data1':totalDollars})
-            return render_to_response('main/success.html',{'totalDollars':totalDollars})
+            # return render(request,'main/success.html',{'data':data})
+            # return render(request,'main/success.html',{'data1':totalDollars})
+            # return render_to_response('main/success.html',{'totalDollars':totalDollars})
+            context = RequestContext(request, {
+                # 'inputImageURL' : inputImageURL,
+                'pennyCount' : pennyCount,
+                'nickelCount' : nickelCount,
+                'dimeCount' : dimeCount,
+                'quarterCount' : quarterCount,
+                'totalDollars' : totalDollars,
+                'totalChange' : totalChange
+            })
+            
+            return render_to_response('main/result.html', context)
+
             return HttpResponseForbidden('allowed only via POST')
