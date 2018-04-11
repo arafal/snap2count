@@ -153,6 +153,12 @@ def upload_pic(request):
             image = coin_laplacian.astype(np.uint8)
             circles = cv2.HoughCircles(image, cv2.HOUGH_GRADIENT, 1,20, param1 = 600, param2 = 30, minRadius = 0, maxRadius =0 )
 
+            if circles is None: #no circles detected
+                print('***************************************************************')
+                return render(request, 'main/failed.html')
+                
+
+
             #print (circles)
 
             circles = np.uint16(np.around(circles))
@@ -411,3 +417,4 @@ def upload_pic(request):
             return render(request, 'main/result.html', context)
         else: 
             return HttpResponse('invalid form')
+    return HttpResponse('Must be a POST Response')
